@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Garcia | Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">DanielDev</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#projects">Proyectos</a></li>
+                    <li><a href="#about">Sobre Mí</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1>Hola, soy Daniel <br><span>Desarrollador Web</span></h1>
+            <p>Creando experiencias digitales modernas, rápidas y visualmente impactantes. Estudiante de DAW apasionado
+                por el código limpio.</p>
+            <a href="#projects" class="btn">Ver Mis Proyectos</a>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Mis Proyectos</h2>
+            <div class="project-grid">
+                <!-- Project 1: Hangman -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="project-info">
+                        <h3>Juego del Ahorcado</h3>
+                        <p>Una implementación robusta en Java del clásico juego, con gestión de diccionario y lógica
+                            avanzada.</p>
+                        <div class="project-links">
+                            <a href="#" class="link-btn">Ver Código <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 2: Form Practice -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="project-info">
+                        <h3>Gestor de Formularios</h3>
+                        <p>Práctica completa de HTML, CSS y JS validando formularios dinámicos sin librerías externas.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://danicode-dev.github.io/FORMULARIO-/" class="link-btn">Ver Demo <i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3: Placeholder -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="project-info">
+                        <h3>Próximo Proyecto</h3>
+                        <p>Trabajando en nuevas ideas y aprendiendo nuevas tecnologías cada día.</p>
+                        <div class="project-links">
+                            <span class="link-btn">En desarrollo...</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Sobre Mí</h2>
+            <div class="about-content">
+                <p>Soy un estudiante del ciclo de Desarrollo de Aplicaciones Web (DAW) con una gran pasión por la
+                    tecnología. Me enfoco en aprender las mejores prácticas de desarrollo, desde la arquitectura del
+                    backend hasta el diseño del frontend.</p>
+                <p>Siempre busco retarme con nuevos proyectos que me permitan mejorar mis habilidades en Java,
+                    JavaScript, HTML y CSS.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="projects"> <!-- Reusing structure for spacing -->
+        <div class="container">
+            <h2 class="section-title">Contáctame</h2>
+            <div style="text-align: center;">
+                <p style="color: #94a3b8; margin-bottom: 2rem;">¿Tienes alguna idea o proyecto en mente? ¡Hablemos!</p>
+                <a href="mailto:tuemail@ejemplo.com" class="btn">Enviar un Correo</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Daniel Garcia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
