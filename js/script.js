@@ -1,112 +1,278 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
+    initSmoothScrolling();
+    initScrollReveal();
+    initBackgroundCanvas();
+});
+
+function initSmoothScrolling() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const behavior = prefersReducedMotion ? 'auto' : 'smooth';
+
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', (event) => {
+            const href = anchor.getAttribute('href');
+            if (!href || href === '#') return;
+
+            const target = document.querySelector(href);
+            if (!target) return;
+
+            event.preventDefault();
+            target.scrollIntoView({ behavior });
         });
     });
+}
 
-    // Add scroll reveal effect (simple version)
-    const observerOptions = {
-        threshold: 0.1
+function initScrollReveal() {
+    const targets = document.querySelectorAll('.project-card, .section-title');
+    if (!targets.length) return;
+
+    targets.forEach((element) => element.classList.add('reveal', 'is-visible'));
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+        return;
+    }
+
+    const isInViewport = (element) => {
+        const rect = element.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
     };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+    const observer = new IntersectionObserver(
+        (entries, observerInstance) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                observerInstance.unobserve(entry.target);
+            });
+        },
+        { threshold: 0.1 }
+    );
+
+    targets.forEach((element) => observer.observe(element));
+
+    window.requestAnimationFrame(() => {
+        targets.forEach((element) => {
+            if (isInViewport(element)) {
+                observer.unobserve(element);
+                return;
             }
+            element.classList.remove('is-visible');
         });
-    }, observerOptions);
-
-    document.querySelectorAll('.project-card, .section-title').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
     });
+}
 
-    // Initialize particles only if motion is allowed
+function initBackgroundCanvas() {
+    const canvas = document.getElementById('bg-canvas');
+    if (!canvas) return;
+
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
 
-    console.log('[Particles] Checking if particlesJS is available:', typeof particlesJS);
-    console.log('[Particles] Prefers reduced motion:', prefersReducedMotion);
+    const context = canvas.getContext('2d', { alpha: true });
+    if (!context) return;
 
-    if (!prefersReducedMotion && typeof particlesJS !== 'undefined') {
-        console.log('[Particles] Initializing particles...');
-        particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#38bdf8'
-                },
-                shape: {
-                    type: 'circle',
-                    stroke: {
-                        width: 0,
-                        color: '#000000'
-                    }
-                },
-                opacity: {
-                    value: 0.5,
-                    random: false
-                },
-                size: {
-                    value: 3,
-                    random: true
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#38bdf8',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'grab'
-                    },
-                    onclick: {
-                        enable: false
-                    },
-                    resize: true
-                },
-                modes: {
-                    grab: {
-                        distance: 140,
-                        line_linked: {
-                            opacity: 0.8
-                        }
-                    }
-                }
-            },
-            retina_detect: true
-        });
-    }
-});
+    const colors = getCanvasColors();
+
+    const config = {
+        maxDpr: 2,
+        density: 14000,
+        maxParticles: 160,
+        particleRadiusMin: 0.6,
+        particleRadiusMax: 1.8,
+        speed: 0.35,
+        linkDistance: 140,
+        mouseLinkDistance: 160,
+        mouseIdleMs: 1000,
+    };
+
+    let width = 0;
+    let height = 0;
+    let particles = [];
+    let animationFrameId = 0;
+    let isRunning = false;
+
+    const mouse = {
+        x: 0,
+        y: 0,
+        lastMove: 0,
+    };
+
+    const randomBetween = (min, max) => Math.random() * (max - min) + min;
+
+    const resize = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+
+        const dpr = Math.min(window.devicePixelRatio || 1, config.maxDpr);
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        context.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const targetCount = Math.min(
+            config.maxParticles,
+            Math.max(40, Math.floor((width * height) / config.density))
+        );
+        particles = Array.from({ length: targetCount }, () => ({
+            x: randomBetween(0, width),
+            y: randomBetween(0, height),
+            radius: randomBetween(config.particleRadiusMin, config.particleRadiusMax),
+            alpha: randomBetween(0.2, 0.9),
+            vx: randomBetween(-config.speed, config.speed),
+            vy: randomBetween(-config.speed, config.speed),
+        }));
+    };
+
+    const update = () => {
+        for (const particle of particles) {
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+
+            if (particle.x < -10) particle.x = width + 10;
+            if (particle.x > width + 10) particle.x = -10;
+            if (particle.y < -10) particle.y = height + 10;
+            if (particle.y > height + 10) particle.y = -10;
+        }
+    };
+
+    const drawParticles = () => {
+        for (const particle of particles) {
+            context.beginPath();
+            context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+            context.fillStyle = rgba(colors.primary, particle.alpha);
+            context.fill();
+        }
+    };
+
+    const drawLinks = () => {
+        const linkDistance2 = config.linkDistance * config.linkDistance;
+
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance2 = dx * dx + dy * dy;
+                if (distance2 > linkDistance2) continue;
+
+                const opacity = (1 - distance2 / linkDistance2) * 0.18;
+                context.strokeStyle = rgba(colors.secondary, opacity);
+                context.lineWidth = 1;
+                context.beginPath();
+                context.moveTo(particles[i].x, particles[i].y);
+                context.lineTo(particles[j].x, particles[j].y);
+                context.stroke();
+            }
+        }
+    };
+
+    const drawMouseLinks = () => {
+        const now = performance.now();
+        if (now - mouse.lastMove > config.mouseIdleMs) return;
+
+        const mouseDistance2 = config.mouseLinkDistance * config.mouseLinkDistance;
+
+        for (const particle of particles) {
+            const dx = particle.x - mouse.x;
+            const dy = particle.y - mouse.y;
+            const distance2 = dx * dx + dy * dy;
+            if (distance2 > mouseDistance2) continue;
+
+            const opacity = (1 - distance2 / mouseDistance2) * 0.35;
+            context.strokeStyle = rgba(colors.primary, opacity);
+            context.lineWidth = 1;
+            context.beginPath();
+            context.moveTo(particle.x, particle.y);
+            context.lineTo(mouse.x, mouse.y);
+            context.stroke();
+        }
+    };
+
+    const render = () => {
+        context.clearRect(0, 0, width, height);
+        context.globalCompositeOperation = 'lighter';
+        drawLinks();
+        drawMouseLinks();
+        drawParticles();
+        context.globalCompositeOperation = 'source-over';
+    };
+
+    const frame = () => {
+        if (!isRunning) return;
+        update();
+        render();
+        animationFrameId = window.requestAnimationFrame(frame);
+    };
+
+    const start = () => {
+        if (isRunning) return;
+        isRunning = true;
+        animationFrameId = window.requestAnimationFrame(frame);
+    };
+
+    const stop = () => {
+        if (!isRunning) return;
+        window.cancelAnimationFrame(animationFrameId);
+        isRunning = false;
+    };
+
+    const onPointerMove = (event) => {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+        mouse.lastMove = performance.now();
+    };
+
+    const onVisibilityChange = () => {
+        if (document.hidden) return stop();
+        start();
+    };
+
+    let resizeTimer = 0;
+    const onResize = () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(() => {
+            resize();
+        }, 150);
+    };
+
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('resize', onResize);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    resize();
+    start();
+}
+
+function getCanvasColors() {
+    const styles = window.getComputedStyle(document.documentElement);
+    const primaryHex = styles.getPropertyValue('--primary-color').trim() || '#38bdf8';
+    const secondaryHex = styles.getPropertyValue('--secondary-color').trim() || '#818cf8';
+
+    return {
+        primary: hexToRgb(primaryHex) ?? { r: 56, g: 189, b: 248 },
+        secondary: hexToRgb(secondaryHex) ?? { r: 129, g: 140, b: 248 },
+    };
+}
+
+function rgba(color, alpha) {
+    return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+}
+
+function hexToRgb(hex) {
+    const value = hex.replace('#', '').trim();
+    if (![3, 6].includes(value.length)) return null;
+
+    const expanded = value.length === 3
+        ? value.split('').map((char) => char + char).join('')
+        : value;
+
+    const number = Number.parseInt(expanded, 16);
+    if (Number.isNaN(number)) return null;
+
+    return {
+        r: (number >> 16) & 255,
+        g: (number >> 8) & 255,
+        b: number & 255,
+    };
+}

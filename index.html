@@ -10,11 +10,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
 </head>
 
 <body>
-    <div id="particles-js"></div>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+    <div class="page">
     <header>
         <div class="container">
             <nav>
@@ -29,15 +30,16 @@
         </div>
     </header>
 
+    <main>
     <section id="home" class="hero">
         <div class="container hero-content">
-            <h1><span class="hero-label">PORTAFOLIO</span><span class="hero-name">danicode-dev</span></h1>
+            <h1><span class="hero-label">PORTFOLIO</span><span class="hero-name">danicode-dev</span></h1>
             <p>Creando experiencias digitales modernas, rápidas y visualmente impactantes. Estudiante de DAW apasionado
                 por el código limpio.</p>
             <div class="hero-buttons">
                 <a href="#projects" class="btn">Ver Mis Proyectos</a>
                 <a href="https://github.com/danicode-dev/PORTAFOLIO" class="btn btn-secondary" target="_blank"
-                    rel="noopener" aria-label="Ver repositorio en GitHub">
+                    rel="noopener noreferrer" aria-label="Ver repositorio en GitHub">
                     <i class="fab fa-github"></i> Ver Repositorio
                 </a>
             </div>
@@ -71,8 +73,14 @@
                         </div>
                         <div class="project-links">
                             <a href="https://danicode-dev.github.io/ahorcado/" class="link-btn" target="_blank"
-                                rel="noopener">
-                                <i class="fas fa-code"></i> Ver Código
+                                rel="noopener noreferrer">
+                                <i class="fas fa-code"></i> Juega una partida
+                            </a>
+
+                            <a href="https://github.com/danicode-dev/ahorcado" class="link-btn link-btn-secondary"
+                                target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i> Repositorio
+
                             </a>
                         </div>
                     </div>
@@ -101,12 +109,13 @@
                         </div>
                         <div class="project-links">
                             <a href="https://danicode-dev.github.io/FORMULARIO-/" class="link-btn" target="_blank"
-                                rel="noopener">
-                                <i class="fas fa-external-link-alt"></i> Ver Demo
+                                rel="noopener noreferrer">
+                                <i class="fas fa-external-link-alt"></i> Rellena tu formulario
+
                             </a>
                             <a href="https://github.com/danicode-dev/FORMULARIO-" class="link-btn link-btn-secondary"
-                                target="_blank" rel="noopener">
-                                <i class="fas fa-code"></i> Código
+                                target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i> Repositorio
                             </a>
                         </div>
                     </div>
@@ -137,7 +146,7 @@
                         </div>
                         <div class="project-links">
                             <a href="https://danicode-dev.github.io/Test_mecagonagrafia/" class="link-btn"
-                                target="_blank" rel="noopener">
+                                target="_blank" rel="noopener noreferrer">
                                 <i class="fas fa-keyboard"></i> Jugar Ahora
                             </a>
                         </div>
@@ -160,21 +169,22 @@
         </div>
     </section>
 
-    <section id="contact" class="projects"> <!-- Reusing structure for spacing -->
-        <div class="container">
+    <section id="contact" class="contact">
+        <div class="container contact-content">
             <h2 class="section-title">Contáctame</h2>
-            <div style="text-align: center;">
-                <p style="color: #94a3b8; margin-bottom: 2rem;">¿Tienes alguna idea o proyecto en mente? ¡Hablemos!</p>
-                <a href="mailto:tuemail@ejemplo.com" class="btn">Enviar un Correo</a>
-            </div>
+            <p class="contact-text">¿Tienes alguna idea o proyecto en mente? ¡Hablemos!</p>
+            <a href="mailto:tuemail@ejemplo.com" class="btn">Enviar un correo</a>
         </div>
     </section>
+    </main>
 
     <footer>
         <div class="container">
             <p>&copy; 2025 Daniel Garcia. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    </div>
 
     <script src="js/script.js?v=2.0"></script>
 </body>
