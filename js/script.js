@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize particles only if motion is allowed
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!prefersReducedMotion && typeof tsParticles !== 'undefined') {
-        tsParticles.load('particles-js', {
+    if (!prefersReducedMotion && typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
             particles: {
                 number: {
                     value: 80,
@@ -50,7 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     value: '#38bdf8'
                 },
                 shape: {
-                    type: 'circle'
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000'
+                    }
                 },
                 opacity: {
                     value: 0.5,

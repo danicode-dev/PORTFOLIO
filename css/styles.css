@@ -41,7 +41,7 @@ body {
   #particles-js {
     display: none;
   }
-  
+
   body::before {
     content: '';
     position: fixed;
@@ -50,14 +50,16 @@ body {
     background-size: 200% 200%;
     z-index: -1;
     opacity: 0.5;
-    background-image: 
+    background-image:
       radial-gradient(circle at 20% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
       radial-gradient(circle at 80% 80%, rgba(129, 140, 248, 0.1) 0%, transparent 50%);
   }
 }
 
 /* Typography */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 700;
   color: #fff;
 }
@@ -106,11 +108,19 @@ ul {
 .section-title {
   text-align: center;
   font-size: 2.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   background: var(--gradient-main);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.section-description {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #94a3b8;
+  max-width: 700px;
+  margin: 0 auto 3rem;
 }
 
 /* Header */
@@ -356,19 +366,19 @@ footer {
   .hero-content h1 {
     font-size: 3.5rem;
   }
-  
+
   .hero-name {
     font-size: 3.5rem;
   }
-  
+
   .hero-label {
     font-size: 1rem;
   }
-  
+
   .nav-links {
     display: none;
   }
-  
+
   .project-grid {
     grid-template-columns: 1fr;
   }
@@ -378,11 +388,11 @@ footer {
   .hero-content h1 {
     font-size: 2.5rem;
   }
-  
+
   .hero-name {
     font-size: 2.5rem;
   }
-  
+
   .project-grid {
     grid-template-columns: 1fr;
   }
