@@ -15,7 +15,7 @@
     </script>
     <title>danicode-dev | Portfolio</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="./css/styles.css?v=7b4ccc66">
+    <link rel="stylesheet" href="./css/styles.css?v=0f234f99">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap"
@@ -106,41 +106,39 @@
 
             <section id="projects" class="projects">
                 <div class="container">
-                    <h2 class="section-title">Mis Proyectos</h2>
+                    <h2 class="section-title section-title-icon">
+                        <span class="title-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </span>
+                        <span class="title-featured">Featured</span> <span class="title-projects">Projects</span>
+                    </h2>
                     <p class="section-description">Proyectos en los que he trabajado, aplicando las mejores prácticas de
                         desarrollo</p>
-                    <div class="project-grid">
+                                        <div class="project-grid">
                         <!-- Project 1: Hangman -->
                         <article class="project-card">
                             <div class="project-image">
-                                <svg class="project-icon" width="80" height="80" viewBox="0 0 80 80" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M40 10L50 30H30L40 10Z" fill="currentColor" opacity="0.2" />
-                                    <circle cx="40" cy="45" r="15" stroke="currentColor" stroke-width="2" fill="none" />
-                                    <text x="40" y="52" font-size="20" fill="currentColor" text-anchor="middle">{
-                                        }</text>
-                                </svg>
+                                <img src="./assets/projects/hangman.png" alt="Juego del Ahorcado" loading="lazy">
                             </div>
                             <div class="project-info">
-                                <h3>Juego del Ahorcado</h3>
-                                <p>Una implementación robusta en Java del clásico juego, con gestión de diccionario y
-                                    lógica
-                                    avanzada.</p>
-                                <div class="tech-tags">
-                                    <span class="tag">Java</span>
-                                    <span class="tag">Console</span>
-                                    <span class="tag">OOP</span>
+                                <div class="project-header">
+                                    <h3>Juego del Ahorcado</h3>
+                                    <div class="tech-badges">
+                                        <span class="badge"><i class="fab fa-java"></i></span>
+                                        <span class="badge"><i class="fab fa-html5"></i></span>
+                                        <span class="badge"><i class="fab fa-css3-alt"></i></span>
+                                    </div>
                                 </div>
+                                <p>Versión web avanzada del clásico juego con modos, categorías, dificultades y estadísticas.</p>
                                 <div class="project-links">
-                                    <a href="https://danicode-dev.github.io/ahorcado/" class="link-btn" target="_blank"
-                                        rel="noopener noreferrer">
-                                        <i class="fas fa-code"></i> Juega una partida
+                                    <a href="https://danicode-dev.github.io/ahorcado/" class="project-link" target="_blank" rel="noopener noreferrer">
+                                        <i class="fas fa-external-link-alt"></i> Live Demo
                                     </a>
-
-                                    <a href="https://github.com/danicode-dev/ahorcado"
-                                        class="link-btn link-btn-secondary" target="_blank" rel="noopener noreferrer">
-                                        <i class="fab fa-github"></i> Repositorio
-
+                                    <a href="https://github.com/danicode-dev/ahorcado" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">
+                                        <i class="fab fa-github"></i> GitHub
                                     </a>
                                 </div>
                             </div>
@@ -149,34 +147,24 @@
                         <!-- Project 2: Form Practice -->
                         <article class="project-card">
                             <div class="project-image">
-                                <svg class="project-icon" width="80" height="80" viewBox="0 0 80 80" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="15" y="15" width="50" height="50" rx="4" stroke="currentColor"
-                                        stroke-width="2" fill="none" />
-                                    <line x1="25" y1="30" x2="55" y2="30" stroke="currentColor" stroke-width="2" />
-                                    <line x1="25" y1="40" x2="55" y2="40" stroke="currentColor" stroke-width="2" />
-                                    <line x1="25" y1="50" x2="45" y2="50" stroke="currentColor" stroke-width="2" />
-                                </svg>
+                                <img src="./assets/projects/forms.png" alt="Gestor de Formularios" loading="lazy">
                             </div>
                             <div class="project-info">
-                                <h3>Gestor de Formularios</h3>
-                                <p>Práctica completa de HTML, CSS y JS validando formularios dinámicos sin librerías
-                                    externas.
-                                </p>
-                                <div class="tech-tags">
-                                    <span class="tag">HTML5</span>
-                                    <span class="tag">CSS3</span>
-                                    <span class="tag">JavaScript</span>
+                                <div class="project-header">
+                                    <h3>Gestor de Formularios</h3>
+                                    <div class="tech-badges">
+                                        <span class="badge"><i class="fab fa-html5"></i></span>
+                                        <span class="badge"><i class="fab fa-css3-alt"></i></span>
+                                        <span class="badge"><i class="fab fa-js"></i></span>
+                                    </div>
                                 </div>
+                                <p>Formulario con validación JavaScript pura, diseño glassmorphism y UX moderna.</p>
                                 <div class="project-links">
-                                    <a href="https://danicode-dev.github.io/FORMULARIO-/" class="link-btn"
-                                        target="_blank" rel="noopener noreferrer">
-                                        <i class="fas fa-external-link-alt"></i> Rellena tu formulario
-
+                                    <a href="https://danicode-dev.github.io/FORMULARIO-/" class="project-link" target="_blank" rel="noopener noreferrer">
+                                        <i class="fas fa-external-link-alt"></i> Live Demo
                                     </a>
-                                    <a href="https://github.com/danicode-dev/FORMULARIO-"
-                                        class="link-btn link-btn-secondary" target="_blank" rel="noopener noreferrer">
-                                        <i class="fab fa-github"></i> Repositorio
+                                    <a href="https://github.com/danicode-dev/FORMULARIO-" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">
+                                        <i class="fab fa-github"></i> GitHub
                                     </a>
                                 </div>
                             </div>
@@ -185,31 +173,24 @@
                         <!-- Project 3: Typing Test -->
                         <article class="project-card">
                             <div class="project-image">
-                                <svg class="project-icon" width="80" height="80" viewBox="0 0 80 80" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="10" y="25" width="60" height="35" rx="3" stroke="currentColor"
-                                        stroke-width="2" fill="none" />
-                                    <rect x="15" y="32" width="6" height="6" rx="1" fill="currentColor" opacity="0.3" />
-                                    <rect x="24" y="32" width="6" height="6" rx="1" fill="currentColor" opacity="0.3" />
-                                    <rect x="33" y="32" width="6" height="6" rx="1" fill="currentColor" opacity="0.3" />
-                                    <rect x="42" y="32" width="6" height="6" rx="1" fill="currentColor" />
-                                    <rect x="51" y="32" width="6" height="6" rx="1" fill="currentColor" opacity="0.3" />
-                                    <rect x="60" y="32" width="6" height="6" rx="1" fill="currentColor" opacity="0.3" />
-                                </svg>
+                                <img src="./assets/projects/typing.png" alt="Test de Mecanografía" loading="lazy">
                             </div>
                             <div class="project-info">
-                                <h3>Test de Mecanografía</h3>
-                                <p>Test de velocidad estilo Monkeytype con estadísticas en tiempo real.
-                                </p>
-                                <div class="tech-tags">
-                                    <span class="tag">JavaScript</span>
-                                    <span class="tag">CSS</span>
-                                    <span class="tag">UI/UX</span>
+                                <div class="project-header">
+                                    <h3>Test de Mecanografía</h3>
+                                    <div class="tech-badges">
+                                        <span class="badge"><i class="fab fa-js"></i></span>
+                                        <span class="badge"><i class="fab fa-css3-alt"></i></span>
+                                        <span class="badge"><i class="fas fa-code"></i></span>
+                                    </div>
                                 </div>
+                                <p>Test de velocidad estilo Monkeytype con estadísticas en tiempo real.</p>
                                 <div class="project-links">
-                                    <a href="https://danicode-dev.github.io/Test_mecagonagrafia/" class="link-btn"
-                                        target="_blank" rel="noopener noreferrer">
-                                        <i class="fas fa-keyboard"></i> Jugar Ahora
+                                    <a href="https://danicode-dev.github.io/Test_mecagonagrafia/" class="project-link" target="_blank" rel="noopener noreferrer">
+                                        <i class="fas fa-external-link-alt"></i> Live Demo
+                                    </a>
+                                    <a href="https://github.com/danicode-dev/Test_mecagonagrafia" class="project-link project-link-secondary" target="_blank" rel="noopener noreferrer">
+                                        <i class="fab fa-github"></i> GitHub
                                     </a>
                                 </div>
                             </div>
@@ -242,7 +223,7 @@
                 <div class="container">
                     <!-- Header -->
                     <div class="contact-header">
-                        <h2 class="contact-title">Get in Touch</h2>
+                        <h2 class="contact-title"><span class="title-featured">Get in</span> <span class="title-projects">Touch</span></h2>
                         <div class="contact-title-accent"></div>
                         <p class="contact-subtitle">
                             ¿Listo para dar vida a tus <span class="text-highlight">ideas</span>?
@@ -254,7 +235,7 @@
                     <div class="contact-grid">
                         <!-- Left Card: Links -->
                         <div class="contact-card contact-card-links">
-                            <h3 class="card-title">Get in Touch</h3>
+                            <h3 class="card-title"><span class="title-featured">Get in</span> <span class="title-projects">Touch</span></h3>
 
                             <div class="contact-links">
                                 <!-- Email -->
@@ -332,7 +313,7 @@
                                 </div>
 
                                 <button type="submit" class="btn-submit">
-                                    <span class="btn-text">Send Message</span>
+                                    <span class="btn-text"><span class="title-featured">Send</span> <span class="title-projects">Message</span></span>
                                 </button>
 
                                 <div class="form-success" aria-live="polite">

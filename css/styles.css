@@ -836,10 +836,7 @@ footer {
   font-family: var(--font-heading);
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 700;
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  
   margin-bottom: 0.75rem;
 }
 
@@ -1104,5 +1101,195 @@ footer {
 
   .btn-submit {
     width: 100%;
+  }
+}
+
+/* Featured Projects Title with Icon */
+.section-title-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+}
+
+.title-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  color: #00D9FF;
+  -webkit-text-fill-color: initial;
+}
+
+.title-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Two-tone title colors */
+.title-featured {
+  color: #00D9FF; /* Cyan claro */
+}
+
+.title-projects {
+  color: #58A6FF; /* Azul GitHub */
+}
+
+/* Button text two-tone */
+.btn-submit .title-featured,
+.btn-submit .title-projects {
+  -webkit-text-fill-color: initial;
+}
+
+.btn-submit .title-featured {
+  color: #0D1117;
+}
+
+.btn-submit .title-projects {
+  color: #161B22;
+}
+
+/* ===== Project Cards - New Design ===== */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Project Image */
+.project-card .project-image {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+}
+
+.project-card .project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.05);
+}
+
+/* Project Info */
+.project-card .project-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.project-card .project-info h3 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Tech Badges */
+.tech-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.tech-badges .badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--bg-tertiary);
+  border-radius: 6px;
+  color: var(--accent-blue);
+  font-size: 0.9rem;
+}
+
+/* Description */
+.project-card .project-info p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Project Links */
+.project-card .project-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.project-link:hover {
+  color: var(--accent-green);
+}
+
+.project-link-secondary {
+  color: var(--text-secondary);
+}
+
+.project-link-secondary:hover {
+  color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .project-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .tech-badges {
+    order: -1;
   }
 }
