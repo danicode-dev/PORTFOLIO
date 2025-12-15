@@ -467,6 +467,7 @@ nav {
 
 .tech-chip {
   display: inline-flex;
+  line-height: 1;
   align-items: center;
   gap: 0.5rem;
   flex: 0 0 auto;
