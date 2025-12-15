@@ -392,16 +392,45 @@ nav {
   left: 0;
   width: 100%;
   overflow: hidden;
+  padding: 0.75rem 0;
+  --marquee-duration: 25s;
+  --marquee-fade-size: 64px;
+}
+
+.tech-marquee::before,
+.tech-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--marquee-fade-size);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.tech-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-primary), transparent);
+}
+
+.tech-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-primary), transparent);
 }
 
 .tech-marquee-track {
   display: flex;
   gap: 1rem;
   width: max-content;
-  animation: marquee 25s linear infinite;
+  will-change: transform;
+  animation: marquee var(--marquee-duration) linear infinite;
 }
 
 .tech-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.tech-marquee-track:hover .tech-chip {
   animation-play-state: paused;
 }
 
@@ -418,11 +447,28 @@ nav {
   color: var(--text-primary);
   white-space: nowrap;
   transition: all 0.2s ease;
+  animation: tech-float 4.2s ease-in-out infinite;
+}
+
+.tech-chip:nth-child(2n) {
+  animation-duration: 5.1s;
+  animation-delay: -1.7s;
+}
+
+.tech-chip:nth-child(3n) {
+  animation-duration: 3.7s;
+  animation-delay: -2.4s;
+}
+
+.tech-chip:nth-child(5n) {
+  animation-duration: 4.8s;
+  animation-delay: -0.9s;
 }
 
 .tech-chip:hover {
   border-color: var(--accent-blue);
   color: var(--accent-blue);
+  box-shadow: 0 10px 24px rgba(88, 166, 255, 0.12);
 }
 
 .tech-chip i {
@@ -440,6 +486,17 @@ nav {
   }
 }
 
+@keyframes tech-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .tech-marquee-track {
@@ -447,6 +504,11 @@ nav {
     flex-wrap: wrap;
     justify-content: center;
     width: auto;
+  }
+
+  .tech-chip {
+    animation: none;
+    transform: none;
   }
 }
 
@@ -647,8 +709,8 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .marquee-track {
-    animation-duration: 20s;
+  .tech-marquee {
+    --marquee-duration: 20s;
   }
 }
 
