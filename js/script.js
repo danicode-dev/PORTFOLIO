@@ -1,10 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
+    initCacheCleanup();
     initSmoothScrolling();
     initScrollReveal();
     initTechMarquee();
     initBackgroundCanvas();
     initProjectsMenu();
 });
+
+function initCacheCleanup() {
+    if (!('serviceWorker' in navigator)) return;
+
+    const basePath = window.location.pathname.replace(/[^/]*$/, '');
+
+    navigator.serviceWorker
+        .getRegistrations()
+        .then((registrations) => {
+            registrations.forEach((registration) => {
+                const scopePath = new URL(registration.scope).pathname;
+                if (basePath.startsWith(scopePath)) {
+                    registration.unregister();
+                }
+            });
+        })
+        .catch(() => {});
+}
 
 function initTechMarquee() {
     const marquees = document.querySelectorAll('.tech-marquee');
