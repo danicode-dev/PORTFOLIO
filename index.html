@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="css/styles.css?v=2.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -19,52 +20,30 @@
         <header>
             <div class="container">
                 <nav>
-                    <!-- Left: Logo + Menu -->
+                    <!-- Left: Logo -->
                     <div class="nav-left">
-                        <div class="projects-menu">
-                            <button class="hamburger-btn" id="hamburger-btn" aria-label="Menú de proyectos"
-                                aria-expanded="false">
-                                <i class="fas fa-bars"></i>
-                            </button>
-                            <div class="projects-dropdown" id="projects-dropdown">
-                                <span class="dropdown-title">Mis Proyectos</span>
-                                <a href="https://danicode-dev.github.io/ahorcado/" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i class="fas fa-gamepad"></i> Juego del Ahorcado
-                                </a>
-                                <a href="https://danicode-dev.github.io/FORMULARIO-/" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i class="fas fa-file-alt"></i> Gestor de Formularios
-                                </a>
-                                <a href="https://danicode-dev.github.io/Test_mecagonagrafia/" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <i class="fas fa-keyboard"></i> Test de Mecanografía
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a href="https://github.com/danicode-dev" target="_blank" rel="noopener noreferrer">
-                                    <i class="fab fa-github"></i> Ver todos en GitHub
-                                </a>
-                            </div>
-                        </div>
-                        <div class="logo">DanielDev</div>
+                        <a href="#home" class="logo">danicode-dev</a>
                         <ul class="nav-links">
-                            <li><a href="#home" class="nav-pill active">Inicio</a></li>
-                            <li><a href="#projects" class="nav-pill">Proyectos</a></li>
-                            <li><a href="#about" class="nav-pill">Sobre Mí</a></li>
-                            <li><a href="#contact" class="nav-pill">Contacto</a></li>
+                            <li><a href="#home" class="nav-link active">Inicio</a></li>
+                            <li><a href="#tech-stack" class="nav-link">Stack</a></li>
+                            <li><a href="#projects" class="nav-link">Proyectos</a></li>
+                            <li><a href="#about" class="nav-link">Sobre Mí</a></li>
                         </ul>
                     </div>
 
-                    <!-- Right: Social Icons + CTA -->
+                    <!-- Right: Social Icons -->
                     <div class="nav-right">
-                        <div class="nav-social">
+                        <div class="nav-icons">
+                            <a href="https://github.com/danicode-dev" target="_blank" rel="noopener noreferrer"
+                                aria-label="GitHub" class="icon-btn">
+                                <i class="fab fa-github"></i>
+                            </a>
                             <a href="https://www.linkedin.com/in/daniel-garcía-ortega-404754385" target="_blank"
-                                rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon">
+                                rel="noopener noreferrer" aria-label="LinkedIn" class="icon-btn">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
-                            <a href="https://github.com/danicode-dev" target="_blank" rel="noopener noreferrer"
-                                aria-label="GitHub" class="social-icon">
-                                <i class="fab fa-github"></i>
+                            <a href="mailto:webdaniel2025@gmail.com" aria-label="Email" class="icon-btn">
+                                <i class="fas fa-envelope"></i>
                             </a>
                         </div>
                         <a href="#contact" class="nav-cta">Contacto</a>
@@ -76,54 +55,58 @@
         <main>
             <section id="home" class="hero">
                 <div class="container hero-content">
-                    <!-- Welcome Badge -->
-                    <span class="hero-badge">
-                        <i class="fas fa-star"></i> Bienvenido a mi universo
-                    </span>
+                    <!-- Label -->
+                    <span class="hero-label">danicode-dev · Developer</span>
 
                     <!-- Main Title -->
                     <h1 class="hero-title">
-                        Desarrollador Web
-                        <br>& <span class="hero-highlight">Creador Digital</span>
+                        Desarrollador Web & <span class="hero-highlight">Creador Digital</span>
                     </h1>
 
                     <!-- Description -->
                     <p class="hero-description">
-                        Creo <span class="text-accent">experiencias</span> web <span class="text-accent">modernas</span>
-                        con tecnologías actuales.
-                        <br>Apasionado por el código limpio, diseños impactantes y experiencias de usuario fluidas.
+                        Creo experiencias web modernas con tecnologías actuales.
                     </p>
 
-                    <!-- Buttons -->
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">
-                            <i class="fas fa-rocket"></i> Explorar Proyectos
-                        </a>
-                        <a href="https://github.com/danicode-dev" class="btn btn-outline" target="_blank"
-                            rel="noopener noreferrer">
-                            <i class="fab fa-github"></i> Ver GitHub
-                        </a>
-                    </div>
+                    <!-- Single CTA -->
+                    <a href="#projects" class="btn-hero">
+                        Explorar Proyectos
+                    </a>
+                </div>
+            </section>
 
-                    <!-- Social Icons -->
-                    <div class="hero-social">
-                        <a href="https://github.com/danicode-dev" target="_blank" rel="noopener noreferrer"
-                            aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/daniel-garcía-ortega-404754385" target="_blank"
-                            rel="noopener noreferrer" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="mailto:webdaniel2025@gmail.com" aria-label="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                    </div>
-
-                    <!-- Scroll Indicator -->
-                    <div class="scroll-indicator">
-                        <span>Scroll para explorar</span>
-                        <i class="fas fa-chevron-down"></i>
+            <!-- Tech Stack Section -->
+            <section id="tech-stack" class="tech-stack">
+                <div class="container">
+                    <h2 class="section-title">Mi Tech Stack</h2>
+                    <div class="marquee-wrapper" aria-label="Tecnologías que uso">
+                        <div class="marquee-track">
+                            <div class="marquee-content">
+                                <span class="tech-chip"><i class="fab fa-java"></i> Java</span>
+                                <span class="tech-chip"><i class="fab fa-html5"></i> HTML5</span>
+                                <span class="tech-chip"><i class="fab fa-css3-alt"></i> CSS3</span>
+                                <span class="tech-chip"><i class="fab fa-js"></i> JavaScript</span>
+                                <span class="tech-chip"><i class="fab fa-git-alt"></i> Git</span>
+                                <span class="tech-chip"><i class="fab fa-github"></i> GitHub</span>
+                                <span class="tech-chip"><i class="fas fa-database"></i> MySQL</span>
+                                <span class="tech-chip"><i class="fab fa-linux"></i> Linux</span>
+                                <span class="tech-chip"><i class="fas fa-code"></i> VS Code</span>
+                                <span class="tech-chip"><i class="fas fa-sticky-note"></i> Notion</span>
+                            </div>
+                            <!-- Duplicate for seamless loop -->
+                            <div class="marquee-content" aria-hidden="true">
+                                <span class="tech-chip"><i class="fab fa-java"></i> Java</span>
+                                <span class="tech-chip"><i class="fab fa-html5"></i> HTML5</span>
+                                <span class="tech-chip"><i class="fab fa-css3-alt"></i> CSS3</span>
+                                <span class="tech-chip"><i class="fab fa-js"></i> JavaScript</span>
+                                <span class="tech-chip"><i class="fab fa-git-alt"></i> Git</span>
+                                <span class="tech-chip"><i class="fab fa-github"></i> GitHub</span>
+                                <span class="tech-chip"><i class="fas fa-database"></i> MySQL</span>
+                                <span class="tech-chip"><i class="fab fa-linux"></i> Linux</span>
+                                <span class="tech-chip"><i class="fas fa-code"></i> VS Code</span>
+                                <span class="tech-chip"><i class="fas fa-sticky-note"></i> Notion</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
