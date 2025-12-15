@@ -818,7 +818,7 @@ footer {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(ellipse 50% 50% at 20% 50%, rgba(255, 107, 53, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 20% 50%, rgba(88, 166, 255, 0.08) 0%, transparent 70%),
     radial-gradient(ellipse 40% 40% at 80% 30%, rgba(88, 166, 255, 0.06) 0%, transparent 70%);
   pointer-events: none;
 }
@@ -835,7 +835,7 @@ footer {
   font-family: var(--font-heading);
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 700;
-  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -845,7 +845,7 @@ footer {
 .contact-title-accent {
   width: 80px;
   height: 4px;
-  background: linear-gradient(90deg, #FF6B35, #F7931E);
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
   border-radius: 2px;
   margin: 0 auto 1.5rem;
 }
@@ -859,7 +859,7 @@ footer {
 }
 
 .text-highlight {
-  color: #FF6B35;
+  color: var(--accent-blue);
   font-weight: 500;
 }
 
@@ -1026,7 +1026,7 @@ footer {
   justify-content: center;
   gap: 0.5rem;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
   border: none;
   border-radius: 10px;
   color: #0D1117;
@@ -1040,7 +1040,7 @@ footer {
 
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 8px 24px rgba(63, 185, 80, 0.3);
 }
 
 .btn-submit:focus-visible {
