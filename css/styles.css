@@ -73,6 +73,16 @@ body {
     display: none;
   }
 
+  .hero::before,
+  .project-image::before {
+    animation: none;
+  }
+
+  .project-icon {
+    animation: none;
+    transform: none;
+  }
+
   .reveal {
     opacity: 1;
     transform: none;
@@ -320,7 +330,9 @@ nav {
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle, var(--border-color) 1px, transparent 1px);
-  background-size: 24px 24px;
+  --grid-size: 24px;
+  background-size: var(--grid-size) var(--grid-size);
+  animation: grid-drift 24s linear infinite;
   opacity: 0.4;
   pointer-events: none;
 }
@@ -422,6 +434,7 @@ nav {
   display: flex;
   gap: 1rem;
   width: max-content;
+  --marquee-distance: 50%;
   will-change: transform;
   animation: marquee var(--marquee-duration) linear infinite;
 }
@@ -438,6 +451,7 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 0 0 auto;
   padding: 0.5rem 1rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
@@ -482,7 +496,17 @@ nav {
   }
 
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-1 * var(--marquee-distance, 50%)));
+  }
+}
+
+@keyframes grid-drift {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: var(--grid-size) var(--grid-size);
   }
 }
 
@@ -494,6 +518,17 @@ nav {
 
   50% {
     transform: translate3d(0, -6px, 0);
+  }
+}
+
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-1deg);
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0) rotate(1deg);
   }
 }
 
@@ -556,7 +591,9 @@ nav {
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle, var(--border-color) 1px, transparent 1px);
-  background-size: 16px 16px;
+  --grid-size: 16px;
+  background-size: var(--grid-size) var(--grid-size);
+  animation: grid-drift 18s linear infinite reverse;
   opacity: 0.5;
 }
 
@@ -565,6 +602,16 @@ nav {
   position: relative;
   z-index: 1;
   opacity: 0.5;
+  will-change: transform;
+  animation: icon-float 6.5s ease-in-out infinite;
+}
+
+.project-card:nth-child(2n) .project-icon {
+  animation-delay: -2.2s;
+}
+
+.project-card:nth-child(3n) .project-icon {
+  animation-delay: -3.7s;
 }
 
 .project-info {
