@@ -1386,3 +1386,115 @@ footer {
   pointer-events: none;
   z-index: 1;
 }
+
+/* ===== Animated Section Backgrounds ===== */
+
+/* Projects Section - Moving Gradient Mesh */
+.projects {
+  position: relative;
+  overflow: hidden;
+}
+
+.projects::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(88, 166, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(163, 113, 247, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 60% at 50% 20%, rgba(0, 217, 255, 0.04) 0%, transparent 50%);
+  animation: projectsGradient 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.projects::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(0deg, transparent 24%, rgba(48, 54, 61, 0.04) 25%, rgba(48, 54, 61, 0.04) 26%, transparent 27%, transparent 74%, rgba(48, 54, 61, 0.04) 75%, rgba(48, 54, 61, 0.04) 76%, transparent 77%),
+    linear-gradient(90deg, transparent 24%, rgba(48, 54, 61, 0.04) 25%, rgba(48, 54, 61, 0.04) 26%, transparent 27%, transparent 74%, rgba(48, 54, 61, 0.04) 75%, rgba(48, 54, 61, 0.04) 76%, transparent 77%);
+  background-size: 80px 80px;
+  animation: gridMove 30s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes projectsGradient {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  25% { 
+    transform: translate(2%, -2%) scale(1.05);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translate(-1%, 1%) scale(0.98);
+    opacity: 1;
+  }
+  75% { 
+    transform: translate(-2%, -1%) scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+@keyframes gridMove {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 80px 80px, 80px 80px; }
+}
+
+.projects .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* About Section - Floating Orbs */
+.about {
+  position: relative;
+  overflow: hidden;
+}
+
+.about::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(63, 185, 80, 0.08) 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  animation: floatOrb1 15s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.about::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(88, 166, 255, 0.06) 0%, transparent 70%);
+  bottom: -50px;
+  left: -50px;
+  animation: floatOrb2 18s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes floatOrb1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-30px, 40px) scale(1.1); }
+  66% { transform: translate(20px, -20px) scale(0.95); }
+}
+
+@keyframes floatOrb2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.15); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+.about .container {
+  position: relative;
+  z-index: 1;
+}
