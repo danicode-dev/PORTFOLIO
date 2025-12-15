@@ -2,7 +2,42 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScrolling();
     initScrollReveal();
     initBackgroundCanvas();
+    initProjectsMenu();
 });
+
+function initProjectsMenu() {
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const dropdown = document.getElementById('projects-dropdown');
+
+    if (!hamburgerBtn || !dropdown) return;
+
+    // Toggle menu on button click
+    hamburgerBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const isOpen = dropdown.classList.toggle('show');
+        hamburgerBtn.classList.toggle('active', isOpen);
+        hamburgerBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!dropdown.contains(event.target) && !hamburgerBtn.contains(event.target)) {
+            dropdown.classList.remove('show');
+            hamburgerBtn.classList.remove('active');
+            hamburgerBtn.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && dropdown.classList.contains('show')) {
+            dropdown.classList.remove('show');
+            hamburgerBtn.classList.remove('active');
+            hamburgerBtn.setAttribute('aria-expanded', 'false');
+            hamburgerBtn.focus();
+        }
+    });
+}
 
 function initSmoothScrolling() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
