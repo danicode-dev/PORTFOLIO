@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCacheCleanup();
     initThemeToggle();
     initSmoothScrolling();
-    initSmoothScrolling();
+    initInactivityAutoscroll();
     initNavbar();
     initScrollReveal();
     initProjectsMenu();
@@ -36,6 +36,7 @@ function initThemeToggle() {
     if (!toggleButton) return;
 
     const themeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const prefersReducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const storage = {
         get(key) {
             try {
@@ -53,26 +54,45 @@ function initThemeToggle() {
 
     const getTheme = () => document.documentElement.dataset.theme || 'dark';
 
-    const updateButton = (theme) => {
+    const getIconElement = () => {
+        const existing = toggleButton.querySelector('i');
+        if (existing) return existing;
+
+        const icon = document.createElement('i');
+        icon.setAttribute('aria-hidden', 'true');
+        toggleButton.appendChild(icon);
+        return icon;
+    };
+
+    const setIcon = (theme) => {
+        const icon = getIconElement();
+        const isDark = theme === 'dark';
+
+        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        icon.setAttribute('aria-hidden', 'true');
+    };
+
+    const updateButton = (theme, { skipIcon } = {}) => {
         const isDark = theme === 'dark';
         const label = isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
 
         toggleButton.setAttribute('aria-label', label);
         toggleButton.setAttribute('title', label);
         toggleButton.setAttribute('aria-pressed', String(isDark));
-        toggleButton.innerHTML = isDark
-            ? '<i class="fas fa-sun" aria-hidden="true"></i>'
-            : '<i class="fas fa-moon" aria-hidden="true"></i>';
+
+        if (!skipIcon) {
+            setIcon(theme);
+        }
     };
 
-    const applyTheme = (theme, { persist } = { persist: true }) => {
+    const applyTheme = (theme, { persist = true, skipIcon = false } = {}) => {
         document.documentElement.dataset.theme = theme;
 
         if (persist) {
             storage.set('theme', theme);
         }
 
-        updateButton(theme);
+        updateButton(theme, { skipIcon });
         window.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
     };
 
@@ -84,9 +104,40 @@ function initThemeToggle() {
 
     updateButton(getTheme());
 
+    let iconSwapTimeout = null;
+    let switchEndTimeout = null;
+
+    const clearSwitchTimers = () => {
+        if (iconSwapTimeout) {
+            window.clearTimeout(iconSwapTimeout);
+            iconSwapTimeout = null;
+        }
+
+        if (switchEndTimeout) {
+            window.clearTimeout(switchEndTimeout);
+            switchEndTimeout = null;
+        }
+    };
+
     toggleButton.addEventListener('click', () => {
         const next = getTheme() === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
+
+        if (prefersReducedMotionQuery.matches) {
+            applyTheme(next);
+            return;
+        }
+
+        clearSwitchTimers();
+        toggleButton.classList.add('is-switching');
+        applyTheme(next, { skipIcon: true });
+
+        iconSwapTimeout = window.setTimeout(() => {
+            setIcon(next);
+        }, 190);
+
+        switchEndTimeout = window.setTimeout(() => {
+            toggleButton.classList.remove('is-switching');
+        }, 480);
     });
 
     const syncWithSystem = () => {
@@ -103,6 +154,66 @@ function initThemeToggle() {
 
 
 
+
+function initInactivityAutoscroll() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    if (window.scrollY > 0) return;
+    if (window.location.hash && window.location.hash !== '#home') return;
+
+    const target = document.getElementById('projects');
+    if (!target) return;
+
+    const sessionKey = 'autoscroll-featured-projects';
+    const session = {
+        get(key) {
+            try {
+                return sessionStorage.getItem(key);
+            } catch (error) {
+                return null;
+            }
+        },
+        set(key, value) {
+            try {
+                sessionStorage.setItem(key, value);
+            } catch (error) { }
+        },
+    };
+
+    if (session.get(sessionKey)) return;
+    session.set(sessionKey, '1');
+
+    let timeoutId = null;
+
+    const cleanup = () => {
+        if (timeoutId !== null) {
+            window.clearTimeout(timeoutId);
+            timeoutId = null;
+        }
+
+        window.removeEventListener('mousemove', cleanup);
+        window.removeEventListener('scroll', cleanup);
+        window.removeEventListener('wheel', cleanup);
+        window.removeEventListener('touchstart', cleanup);
+        window.removeEventListener('pointerdown', cleanup);
+        document.removeEventListener('keydown', cleanup);
+    };
+
+    window.addEventListener('mousemove', cleanup, { passive: true, once: true });
+    window.addEventListener('scroll', cleanup, { passive: true, once: true });
+    window.addEventListener('wheel', cleanup, { passive: true, once: true });
+    window.addEventListener('touchstart', cleanup, { passive: true, once: true });
+    window.addEventListener('pointerdown', cleanup, { passive: true, once: true });
+    document.addEventListener('keydown', cleanup, { once: true });
+
+    timeoutId = window.setTimeout(() => {
+        cleanup();
+
+        if (window.scrollY > 0) return;
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 5000);
+}
 
 function initNavbar() {
     const header = document.querySelector('header');
