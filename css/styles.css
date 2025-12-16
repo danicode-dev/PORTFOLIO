@@ -40,7 +40,15 @@
   --chip-bg: #1e252e;
   --chip-border: #4a525d;
   --chip-text: #ffffff;
+  --chip-text: #ffffff;
   --chip-shadow: rgba(0, 0, 0, 0.5);
+
+  /* Additional Theme Vars */
+  --header-bg: rgba(13, 17, 23, 0.9);
+  --input-bg: var(--bg-tertiary);
+  --card-shadow-hover: rgba(0, 0, 0, 0.3);
+  --contact-card-bg: rgba(22, 27, 34, 0.8);
+  --hero-overlay: radial-gradient(ellipse 80% 50% at 50% 50%, transparent 0%, var(--bg-primary) 100%);
 }
 
 :root[data-theme="light"] {
@@ -66,6 +74,14 @@
   --chip-text: #0969DA;
   /* Blue text for contrast/style in light mode */
   --chip-shadow: rgba(0, 0, 0, 0.1);
+
+  /* Light Mode Overrides */
+  --header-bg: rgba(255, 255, 255, 0.9);
+  --input-bg: #FFFFFF;
+  --card-shadow-hover: rgba(0, 0, 0, 0.1);
+  --contact-card-bg: rgba(255, 255, 255, 0.9);
+  /* Lighter overlay for light mode */
+  --hero-overlay: radial-gradient(ellipse 80% 50% at 50% 50%, transparent 0%, rgba(255, 255, 255, 0.8) 100%);
 }
 
 * {
@@ -240,7 +256,7 @@ header {
   left: 0;
   width: 100%;
   padding: 1rem 0;
-  background: rgba(13, 17, 23, 0.9);
+  background: var(--header-bg);
   backdrop-filter: blur(12px);
   z-index: 1000;
   border-bottom: 1px solid var(--border-color);
@@ -376,7 +392,7 @@ nav {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 50% at 50% 50%, transparent 0%, var(--bg-primary) 100%);
+  background: var(--hero-overlay);
   pointer-events: none;
 }
 
@@ -1397,7 +1413,7 @@ footer {
 
 /* Card Base */
 .contact-card {
-  background: rgba(22, 27, 34, 0.8);
+  background: var(--contact-card-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
@@ -1408,7 +1424,7 @@ footer {
 
 .contact-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 40px var(--card-shadow-hover);
 }
 
 .card-title {
@@ -1556,7 +1572,7 @@ button.contact-link:hover {
 .form-group input,
 .form-group textarea {
   padding: 0.875rem 1rem;
-  background: var(--bg-tertiary);
+  background: var(--input-bg);
   border: 1px solid var(--border-color);
   border-radius: 10px;
   color: var(--text-primary);
