@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCacheCleanup();
     initThemeToggle();
     initSmoothScrolling();
-    initSmoothScrolling();
+    initInactivityAutoscroll();
     initNavbar();
     initScrollReveal();
     initProjectsMenu();
@@ -154,6 +154,66 @@ function initThemeToggle() {
 
 
 
+
+function initInactivityAutoscroll() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    if (window.scrollY > 0) return;
+    if (window.location.hash && window.location.hash !== '#home') return;
+
+    const target = document.getElementById('projects');
+    if (!target) return;
+
+    const sessionKey = 'autoscroll-featured-projects';
+    const session = {
+        get(key) {
+            try {
+                return sessionStorage.getItem(key);
+            } catch (error) {
+                return null;
+            }
+        },
+        set(key, value) {
+            try {
+                sessionStorage.setItem(key, value);
+            } catch (error) { }
+        },
+    };
+
+    if (session.get(sessionKey)) return;
+    session.set(sessionKey, '1');
+
+    let timeoutId = null;
+
+    const cleanup = () => {
+        if (timeoutId !== null) {
+            window.clearTimeout(timeoutId);
+            timeoutId = null;
+        }
+
+        window.removeEventListener('mousemove', cleanup);
+        window.removeEventListener('scroll', cleanup);
+        window.removeEventListener('wheel', cleanup);
+        window.removeEventListener('touchstart', cleanup);
+        window.removeEventListener('pointerdown', cleanup);
+        document.removeEventListener('keydown', cleanup);
+    };
+
+    window.addEventListener('mousemove', cleanup, { passive: true, once: true });
+    window.addEventListener('scroll', cleanup, { passive: true, once: true });
+    window.addEventListener('wheel', cleanup, { passive: true, once: true });
+    window.addEventListener('touchstart', cleanup, { passive: true, once: true });
+    window.addEventListener('pointerdown', cleanup, { passive: true, once: true });
+    document.addEventListener('keydown', cleanup, { once: true });
+
+    timeoutId = window.setTimeout(() => {
+        cleanup();
+
+        if (window.scrollY > 0) return;
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 5000);
+}
 
 function initNavbar() {
     const header = document.querySelector('header');
