@@ -47,67 +47,90 @@ body {
 .cv-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 25px 30px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    align-items: flex-start;
+    /* Align top to handle different heights */
+    padding: 35px 40px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+    /* Deeper blue */
     color: white;
+}
+
+.header-info {
+    flex: 1;
 }
 
 .header-info h1 {
     font-family: 'Panchang', sans-serif;
-    font-size: 28pt;
+    font-size: 38pt;
+    /* Much larger */
+    line-height: 1.1;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
     text-transform: uppercase;
+    /* Gradient text effect for "color" request */
+    background: linear-gradient(to bottom, #ffffff 0%, #e2e8f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .header-info .subtitle {
-    font-size: 11pt;
-    font-weight: 500;
-    opacity: 0.95;
+    font-size: 13pt;
+    font-weight: 600;
+    opacity: 1;
+    color: #ffffff;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
 }
 
 .header-info .tagline {
-    font-size: 9pt;
+    font-size: 10pt;
     opacity: 0.8;
-    font-weight: 300;
-    margin-top: 2px;
+    font-weight: 400;
+    margin-top: 0;
 }
 
 .header-contact {
     text-align: right;
-    font-size: 9pt;
+    font-size: 9.5pt;
+    padding-top: 5px;
+    /* Visual alignment with H1 top */
 }
 
 .header-contact p {
-    margin: 4px 0;
+    margin: 6px 0;
     opacity: 0.95;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
 }
 
 .header-contact i {
-    width: 16px;
-    margin-right: 6px;
-    opacity: 0.8;
+    width: auto;
+    margin-right: 0;
+    opacity: 0.9;
+    font-size: 11pt;
 }
 
 .header-links {
-    margin-top: 10px;
+    margin-top: 15px;
     display: flex;
-    gap: 12px;
+    gap: 15px;
     justify-content: flex-end;
 }
 
 .header-links a {
     color: white;
-    font-size: 18px;
+    font-size: 20px;
     opacity: 0.85;
-    transition: opacity 0.2s, transform 0.2s;
+    transition: all 0.2s;
 }
 
 .header-links a:hover {
     opacity: 1;
-    transform: translateY(-2px);
+    transform: scale(1.1);
 }
 
 /* TWO COLUMN LAYOUT */
