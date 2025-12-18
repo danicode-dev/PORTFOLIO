@@ -55,12 +55,6 @@ function initThemeToggle() {
 
     const getTheme = () => document.documentElement.dataset.theme || 'dark';
 
-    // Update checkbox state based on theme
-    const updateCheckbox = (theme) => {
-        const isDark = theme === 'dark';
-        toggleCheckbox.checked = isDark;
-    };
-
     const applyTheme = (theme, { persist = true } = {}) => {
         document.documentElement.dataset.theme = theme;
 
@@ -68,7 +62,6 @@ function initThemeToggle() {
             storage.set('theme', theme);
         }
 
-        updateCheckbox(theme);
         window.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
     };
 
@@ -79,11 +72,12 @@ function initThemeToggle() {
         document.documentElement.dataset.theme = theme;
     }
 
-    updateCheckbox(getTheme());
 
-    // Toggle change handler (checkbox)
-    toggleCheckbox.addEventListener('change', () => {
-        const next = toggleCheckbox.checked ? 'dark' : 'light';
+
+    // Toggle change handler (button click)
+    toggleCheckbox.addEventListener('click', () => {
+        const current = getTheme();
+        const next = current === 'dark' ? 'light' : 'dark';
         applyTheme(next);
     });
 
