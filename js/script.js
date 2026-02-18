@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     initCacheCleanup();
-    initThemeToggle();
+    // Theme toggle intentionally disabled; site is fixed to dark mode.
+    // Keep initThemeToggle() for future reactivation.
     initSmoothScrolling();
     initInactivityAutoscroll();
     initNavbar();
     initScrollReveal();
-    initProjectsMarquee();
+    initProjectsInteractions();
 
     initTypingAnimation();
     initEmailCopy();
@@ -389,7 +390,6 @@ function initEmailCopy() {
     });
 }
 
-
 // ===== Constellation Particles =====
 function initParticles() {
     const canvas = document.getElementById('particles-canvas');
@@ -516,110 +516,421 @@ function initParticles() {
     });
 }
 
-function initProjectsMarquee() {
-    const marquee = document.querySelector('[data-projects-marquee]');
-    if (!marquee) return;
+// ===== Projects Modal & Interaction =====
+function initProjectsInteractions() {
+    const projectCards = document.querySelectorAll('.project-card[data-id]');
+    const modal = document.getElementById('project-modal');
+    const modalContainer = modal ? modal.querySelector('.modal-container') : null;
+    const closeBtn = modal ? modal.querySelector('.modal-close') : null;
+    const modalTitle = document.getElementById('modal-title');
+    const modalStatus = document.getElementById('modal-status');
+    const modalDescription = document.getElementById('modal-description');
+    const modalDemo = document.getElementById('modal-demo');
+    const modalGithub = document.getElementById('modal-github');
+    const mainImage = document.getElementById('modal-image');
+    const captionElement = document.getElementById('gallery-caption');
+    const prevButton = document.getElementById('gallery-prev');
+    const nextButton = document.getElementById('gallery-next');
+    const thumbsContainer = document.getElementById('gallery-thumbs');
+    const techContainer = document.getElementById('modal-tech-stack');
+    const diagramContainer = document.getElementById('modal-tech-diagram');
+    const featuresList = document.getElementById('modal-features');
 
-    const track = marquee.querySelector('[data-projects-track]');
-    const group = marquee.querySelector('[data-projects-group]');
-    if (!track || !group) return;
+    if (!projectCards.length ||
+        !modal ||
+        !modalContainer ||
+        !closeBtn ||
+        !modalTitle ||
+        !modalStatus ||
+        !modalDescription ||
+        !modalDemo ||
+        !modalGithub ||
+        !mainImage ||
+        !captionElement ||
+        !prevButton ||
+        !nextButton ||
+        !thumbsContainer ||
+        !techContainer ||
+        !diagramContainer ||
+        !featuresList) {
+        return;
+    }
 
-    const cards = group.querySelectorAll('.project-card');
-    if (cards.length < 2) return;
-
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const mobileQuery = window.matchMedia('(max-width: 768px)');
-    const coarsePointerQuery = window.matchMedia('(hover: none) and (pointer: coarse)');
-
-    const cloneSelector = '[data-marquee-clone="true"]';
-    const pxPerSecond = 30;
-    let resizeObserver = null;
-    let rafId = 0;
-    let hasWindowResizeListener = false;
-
-    const handleWindowResize = () => {
-        setMarqueeVars();
+    const projectData = {
+        aidraft: {
+            title: 'IDraft (AIDraft) - Generador Inteligente de Documentos Academicos',
+            status: 'MVP / en desarrollo',
+            statusClass: 'status-in-progress',
+            tech: [
+                { name: 'Next.js', icon: 'fas fa-layer-group' },
+                { name: 'TypeScript', icon: 'fas fa-code' },
+                { name: 'Tailwind CSS', icon: 'fas fa-wind' },
+                { name: 'Prisma', icon: 'fas fa-database' },
+                { name: 'NextAuth', icon: 'fas fa-user-shield' },
+                { name: 'OpenAI / Groq', icon: 'fas fa-brain' }
+            ],
+            images: [
+                {
+                    src: './assets/AIDraft/PANTALLA 1.png',
+                    caption: 'Inicio: subida de enunciado PDF/TXT y creacion del documento.'
+                },
+                {
+                    src: './assets/AIDraft/BORRADOR.png',
+                    caption: 'Borrador generado por IA listo para revision.'
+                },
+                {
+                    src: './assets/AIDraft/EDITAR BORRADOR ARCHIVO.png',
+                    caption: 'Editor final y preparacion de exportacion a Word (.docx).'
+                }
+            ],
+            description: 'App full-stack que genera y edita borradores academicos desde PDF/TXT y los exporta a Word en un clic.',
+            features: [
+                'Generacion IA con plantillas FOC o generica.',
+                'Gestion por usuario con autenticacion y proyectos.',
+                'Exportacion final a .docx con estructura editable.'
+            ],
+            demo: null,
+            github: 'https://github.com/danicode-dev/AIDraft'
+        }
     };
 
-    const setMarqueeVars = () => {
-        cancelAnimationFrame(rafId);
+    const statusClasses = ['status-completed', 'status-in-progress', 'status-maintenance'];
+    const focusSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-        rafId = window.requestAnimationFrame(() => {
-            const distance = Math.ceil(group.getBoundingClientRect().width);
-            if (!distance) return;
+    let lastFocusedElement = null;
+    let previousBodyOverflow = '';
+    let currentProject = null;
+    let currentImageIndex = 0;
 
-            track.style.setProperty('--projects-marquee-distance', `${distance}px`);
-            track.style.setProperty('--projects-marquee-duration', `${(distance / pxPerSecond).toFixed(2)}s`);
+    function getSafeExternalUrl(url) {
+        if (typeof url !== 'string' || !url.trim()) return '#';
+
+        try {
+            const parsed = new URL(url, window.location.origin);
+            if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return '#';
+            return parsed.href;
+        } catch {
+            return '#';
+        }
+    }
+
+    function isSafeClassName(className) {
+        return typeof className === 'string' && /^[a-zA-Z0-9\s-]+$/.test(className);
+    }
+
+    function isSafeProjectImagePath(path) {
+        return typeof path === 'string'
+            && /^(?:\.\/)?assets\/(?:projects|AIDraft)\/[a-zA-Z0-9._/ -]+$/.test(path);
+    }
+
+    function normalizeImages(images, fallbackTitle, fallbackSrc) {
+        const items = Array.isArray(images) ? images : [];
+        const normalized = items
+            .map((item, index) => {
+                if (typeof item === 'string') {
+                    return {
+                        src: item,
+                        caption: `${fallbackTitle} preview ${index + 1}`
+                    };
+                }
+
+                if (item && typeof item === 'object') {
+                    return {
+                        src: typeof item.src === 'string' ? item.src : '',
+                        caption: typeof item.caption === 'string' && item.caption.trim()
+                            ? item.caption
+                            : `${fallbackTitle} preview ${index + 1}`
+                    };
+                }
+
+                return { src: '', caption: '' };
+            })
+            .filter((item) => isSafeProjectImagePath(item.src));
+
+        if (!normalized.length && isSafeProjectImagePath(fallbackSrc)) {
+            normalized.push({ src: fallbackSrc, caption: `${fallbackTitle} preview` });
+        }
+
+        return normalized;
+    }
+
+    function applySecureExternalLink(linkElement, url, ariaLabel) {
+        const safeUrl = getSafeExternalUrl(url);
+        const isDisabled = safeUrl === '#';
+
+        linkElement.href = safeUrl;
+        linkElement.rel = 'noopener noreferrer';
+        linkElement.target = '_blank';
+        linkElement.setAttribute('aria-label', ariaLabel);
+        linkElement.setAttribute('aria-disabled', isDisabled ? 'true' : 'false');
+        linkElement.classList.toggle('is-disabled', isDisabled);
+
+        if (isDisabled) {
+            linkElement.setAttribute('tabindex', '-1');
+        } else {
+            linkElement.removeAttribute('tabindex');
+        }
+    }
+
+    function setProjectStatus(text, className) {
+        statusClasses.forEach((statusClass) => modalStatus.classList.remove(statusClass));
+        if (statusClasses.includes(className)) {
+            modalStatus.classList.add(className);
+        }
+        modalStatus.textContent = text || 'Completed';
+    }
+
+    function getFocusableElements() {
+        return Array.from(modalContainer.querySelectorAll(focusSelector)).filter((element) => {
+            if (!(element instanceof HTMLElement)) return false;
+            if (element.getAttribute('aria-hidden') === 'true') return false;
+            if (element.getAttribute('aria-disabled') === 'true') return false;
+            return element.offsetParent !== null;
         });
-    };
+    }
 
-    const buildCloneGroup = () => {
-        const clone = group.cloneNode(true);
-        clone.dataset.marqueeClone = 'true';
-        clone.setAttribute('aria-hidden', 'true');
+    function trapModalFocus(event) {
+        if (event.key !== 'Tab' || !modal.classList.contains('active')) return;
 
-        clone.querySelectorAll('[id]').forEach((node) => node.removeAttribute('id'));
-        clone.querySelectorAll('a, button, input, textarea, select, [tabindex]').forEach((node) => {
-            node.setAttribute('tabindex', '-1');
+        const focusableElements = getFocusableElements();
+        if (!focusableElements.length) return;
+
+        const first = focusableElements[0];
+        const last = focusableElements[focusableElements.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
+    }
+
+    function updateGalleryControls(imageCount) {
+        const multipleImages = imageCount > 1;
+        prevButton.hidden = !multipleImages;
+        nextButton.hidden = !multipleImages;
+        prevButton.disabled = !multipleImages;
+        nextButton.disabled = !multipleImages;
+        thumbsContainer.style.display = multipleImages ? 'flex' : 'none';
+        captionElement.style.display = imageCount ? 'block' : 'none';
+    }
+
+    function updateThumbActiveState() {
+        const thumbs = thumbsContainer.querySelectorAll('.gallery-thumb');
+        thumbs.forEach((thumb, index) => {
+            const isActive = index === currentImageIndex;
+            thumb.classList.toggle('active', isActive);
+            thumb.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+    }
+
+    function setActiveImage(index) {
+        if (!currentProject || !currentProject.images.length) return;
+
+        const imageCount = currentProject.images.length;
+        currentImageIndex = (index + imageCount) % imageCount;
+
+        const activeImage = currentProject.images[currentImageIndex];
+        mainImage.style.opacity = '0';
+
+        window.setTimeout(() => {
+            mainImage.src = activeImage.src;
+            mainImage.alt = `${currentProject.title} preview ${currentImageIndex + 1}`;
+            mainImage.style.opacity = '1';
+        }, 120);
+
+        captionElement.textContent = activeImage.caption || '';
+        updateThumbActiveState();
+    }
+
+    function renderThumbnails() {
+        thumbsContainer.replaceChildren();
+
+        if (!currentProject || !currentProject.images.length) {
+            updateGalleryControls(0);
+            return;
+        }
+
+        currentProject.images.forEach((image, index) => {
+            const thumbButton = document.createElement('button');
+            thumbButton.type = 'button';
+            thumbButton.className = `gallery-thumb ${index === currentImageIndex ? 'active' : ''}`;
+            thumbButton.setAttribute('aria-label', `Show image ${index + 1}`);
+            thumbButton.setAttribute('aria-pressed', index === currentImageIndex ? 'true' : 'false');
+
+            const thumbImage = document.createElement('img');
+            thumbImage.src = image.src;
+            thumbImage.alt = image.caption || `${currentProject.title} thumbnail ${index + 1}`;
+
+            thumbButton.appendChild(thumbImage);
+            thumbButton.addEventListener('click', () => {
+                setActiveImage(index);
+            });
+
+            thumbsContainer.appendChild(thumbButton);
         });
 
-        return clone;
-    };
+        updateGalleryControls(currentProject.images.length);
+    }
 
-    const teardown = () => {
-        marquee.classList.remove('projects-marquee--animate');
-        track.style.removeProperty('--projects-marquee-distance');
-        track.style.removeProperty('--projects-marquee-duration');
+    function renderTechStack(techItems) {
+        techContainer.replaceChildren();
 
-        track.querySelectorAll(cloneSelector).forEach((node) => node.remove());
+        (Array.isArray(techItems) ? techItems : []).forEach((techItem) => {
+            const pill = document.createElement('div');
+            pill.className = 'tech-pill';
 
-        if (resizeObserver) {
-            resizeObserver.disconnect();
+            const icon = document.createElement('i');
+            if (isSafeClassName(techItem.icon)) {
+                icon.className = techItem.icon;
+            } else {
+                icon.className = 'fas fa-code';
+            }
+
+            const name = document.createElement('span');
+            name.textContent = techItem.name || 'Tech';
+
+            pill.appendChild(icon);
+            pill.appendChild(name);
+            techContainer.appendChild(pill);
+        });
+    }
+
+    function renderTechDiagram(techItems) {
+        diagramContainer.replaceChildren();
+
+        const sanitizedTech = (Array.isArray(techItems) ? techItems : [])
+            .map((item) => (item && typeof item.name === 'string' ? item.name.trim() : ''))
+            .filter(Boolean);
+
+        if (!sanitizedTech.length) return;
+
+        sanitizedTech.forEach((techName, index) => {
+            const node = document.createElement('span');
+            node.className = 'tech-diagram-node';
+            node.textContent = techName;
+            diagramContainer.appendChild(node);
+
+            if (index < sanitizedTech.length - 1) {
+                const arrow = document.createElement('span');
+                arrow.className = 'tech-diagram-arrow';
+                arrow.setAttribute('aria-hidden', 'true');
+                arrow.textContent = '->';
+                diagramContainer.appendChild(arrow);
+            }
+        });
+    }
+
+    function renderFeatureList(features) {
+        featuresList.replaceChildren();
+
+        (Array.isArray(features) ? features : []).forEach((feature) => {
+            const item = document.createElement('li');
+            item.textContent = feature;
+            featuresList.appendChild(item);
+        });
+    }
+
+    function openModal(projectId, originElement) {
+        const data = projectData[projectId];
+        if (!data) return;
+
+        const fallbackImage = document.querySelector(`.project-card[data-id="${projectId}"] .project-image img`);
+        const fallbackSrc = fallbackImage ? fallbackImage.getAttribute('src') : '';
+
+        currentProject = {
+            ...data,
+            images: normalizeImages(data.images, data.title, fallbackSrc)
+        };
+        currentImageIndex = 0;
+
+        modalTitle.textContent = data.title;
+        modalDescription.textContent = data.description;
+        setProjectStatus(data.status, data.statusClass);
+
+        applySecureExternalLink(modalDemo, data.demo, `Open demo for ${data.title}`);
+        applySecureExternalLink(modalGithub, data.github, `Open repository for ${data.title}`);
+
+        renderTechStack(data.tech);
+        renderTechDiagram(data.tech);
+        renderFeatureList(data.features);
+        renderThumbnails();
+
+        if (currentProject.images.length) {
+            setActiveImage(0);
+        } else {
+            mainImage.removeAttribute('src');
+            mainImage.alt = `${data.title} preview unavailable`;
+            captionElement.textContent = '';
         }
 
-        if (hasWindowResizeListener) {
-            window.removeEventListener('resize', handleWindowResize);
-            hasWindowResizeListener = false;
+        lastFocusedElement = originElement instanceof HTMLElement
+            ? originElement
+            : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+        previousBodyOverflow = document.body.style.overflow;
+
+        modal.setAttribute('aria-hidden', 'false');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+    }
+
+    function closeModal() {
+        if (!modal.classList.contains('active')) return;
+
+        modal.setAttribute('aria-hidden', 'true');
+        modal.classList.remove('active');
+        document.body.style.overflow = previousBodyOverflow;
+        currentProject = null;
+
+        if (lastFocusedElement instanceof HTMLElement) {
+            lastFocusedElement.focus();
+        }
+    }
+
+    projectCards.forEach((card) => {
+        const projectId = card.dataset.id;
+        if (!projectId) return;
+
+        card.querySelectorAll('.project-details-trigger').forEach((trigger) => {
+            trigger.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                openModal(projectId, trigger);
+            });
+        });
+
+        card.addEventListener('click', (event) => {
+            if (event.target.closest('a, button')) return;
+            openModal(projectId, card);
+        });
+    });
+
+    prevButton.addEventListener('click', () => {
+        setActiveImage(currentImageIndex - 1);
+    });
+
+    nextButton.addEventListener('click', () => {
+        setActiveImage(currentImageIndex + 1);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+            return;
         }
 
-        cancelAnimationFrame(rafId);
-    };
-
-    const setup = () => {
-        teardown();
-
-        const shouldAnimate = !reducedMotionQuery.matches && !mobileQuery.matches && !coarsePointerQuery.matches;
-        if (!shouldAnimate) return;
-
-        if (!track.querySelector(cloneSelector)) {
-            track.appendChild(buildCloneGroup());
-        }
-
-        marquee.classList.add('projects-marquee--animate');
-        setMarqueeVars();
-
-        if ('ResizeObserver' in window) {
-            resizeObserver = resizeObserver || new ResizeObserver(() => setMarqueeVars());
-            resizeObserver.disconnect();
-            resizeObserver.observe(group);
-        } else if (!hasWindowResizeListener) {
-            window.addEventListener('resize', handleWindowResize, { passive: true });
-            hasWindowResizeListener = true;
-        }
-    };
-
-    setup();
-
-    const handleMediaChange = () => {
-        setup();
-    };
-
-    [reducedMotionQuery, mobileQuery, coarsePointerQuery].forEach((query) => {
-        if (typeof query.addEventListener === 'function') {
-            query.addEventListener('change', handleMediaChange);
-        } else if (typeof query.addListener === 'function') {
-            query.addListener(handleMediaChange);
-        }
+        trapModalFocus(event);
     });
 }
 
