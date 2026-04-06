@@ -159,11 +159,11 @@ body {
 }
 
 .header-contact p {
-    font-size: var(--font-size-small);
+    font-size: 0.95rem;
     color: var(--color-text-on-dark);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     font-weight: 500;
 }
 
@@ -525,6 +525,16 @@ body {
     font-weight: 500;
 }
 
+/* Estilos para los logos de empresa */
+.company-logo {
+    height: 16px;
+    width: auto;
+    vertical-align: middle;
+    margin-right: 6px;
+    margin-top: -2px;
+    border-radius: 2px;
+}
+
 .date {
     font-size: 0.75rem;
     font-weight: 600;
@@ -600,7 +610,6 @@ body {
     padding: 12px;
     border-radius: 6px;
     border-left: 3px solid var(--color-primary);
-    font-style: italic;
     font-size: 0.9rem;
     line-height: 1.5;
     color: var(--color-text-body);
@@ -861,11 +870,11 @@ body {
 
     /* Compact Main Content for Print */
     .cv-main {
-        padding: 10px 15px 8px 15px !important;
+        padding: 5px 15px 4px 15px !important;
     }
 
     .cv-section {
-        margin-bottom: 8px !important;
+        margin-bottom: 5px !important;
         break-inside: avoid;
     }
 
@@ -944,7 +953,13 @@ body {
     }
 
     .cv-footer {
-        display: none !important;
+        display: block !important;
+        padding: 6px !important;
+        margin-top: 5px !important;
+    }
+
+    .cv-footer p {
+        font-size: 0.65rem !important;
     }
 
     /* Avoid page breaks */
