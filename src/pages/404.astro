@@ -1,0 +1,26 @@
+---
+import AboutDialog from '../components/dialogs/AboutDialog.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ButtonLink from '../components/ui/ButtonLink.astro';
+import { withBase } from '../utils/paths';
+---
+
+<BaseLayout
+  title="Página no encontrada · Daniel García Ortega"
+  description="La página solicitada no existe."
+  currentPage="404"
+  robots="noindex, follow"
+>
+  <main id="contenido" class="not-found">
+    <p class="eyebrow">ERROR 404</p>
+    <h1>Esta ruta no forma parte del proyecto.</h1>
+    <p>Vuelve al inicio o consulta los proyectos seleccionados.</p>
+    <div>
+      <ButtonLink href={withBase()}>Volver al inicio</ButtonLink>
+      <ButtonLink href={withBase('proyectos/')} variant="secondary"
+        >Ver proyectos</ButtonLink
+      >
+    </div>
+  </main>
+  <AboutDialog />
+</BaseLayout>

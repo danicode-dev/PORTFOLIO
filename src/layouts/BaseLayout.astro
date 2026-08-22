@@ -1,0 +1,64 @@
+---
+import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
+import { withBase } from '../utils/paths';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  currentPage: 'home' | 'projects' | '404';
+  robots?: string;
+  showFooter?: boolean;
+}
+
+const {
+  title,
+  description,
+  currentPage,
+  robots = 'index, follow',
+  showFooter = true,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(withBase('og-image.webp'), Astro.site);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="theme-color" content="#f7f5f0" />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Daniel García Ortega, desarrollador web full-stack"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <Header {currentPage} />
+    <slot />
+    {showFooter && <Footer />}
+    <script>
+      import '../scripts/mobile-menu';
+      import '../scripts/dialogs';
+      import '../scripts/clipboard';
+      import '../scripts/reveal';
+    </script>
+  </body>
+</html>

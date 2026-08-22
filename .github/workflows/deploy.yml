@@ -1,0 +1,64 @@
+name: Validar y desplegar en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  quality:
+    name: Formato, tipos, build y E2E
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v7
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Ejecutar validaciones
+        run: npm test
+
+  build:
+    name: Compilar y subir artefacto
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v7
+
+      - name: Compilar Astro para Pages
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+
+  deploy:
+    name: Publicar en GitHub Pages
+    needs: build
+    if: ${{ vars.PUBLICATION_APPROVED == 'true' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Desplegar
+        id: deployment
+        uses: actions/deploy-pages@v5

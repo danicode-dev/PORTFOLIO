@@ -1,10 +1,38 @@
 {
-  "name": "portfolio-danicode",
+  "name": "portfolio-daniel-garcia-ortega",
+  "type": "module",
   "version": "1.0.0",
-  "description": "Portfolio personal de danicode-dev",
-  "scripts": {
-    "deploy": "node deploy.js"
+  "private": true,
+  "packageManager": "npm@11.6.2",
+  "engines": {
+    "node": ">=22.12.0"
   },
-  "author": "danicode-dev",
-  "license": "MIT"
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "preview:e2e": "node scripts/serve-e2e.mjs",
+    "check": "astro check",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "test:e2e": "playwright test",
+    "test": "npm run format:check && npm run check && npm run build && npm run test:e2e",
+    "export:cv": "node scripts/export-cv.mjs",
+    "optimize:assets": "node scripts/optimize-assets.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.1.6",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^24.13.3",
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.62.1",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "sharp": "^0.35.3",
+    "typescript": "^6.0.3"
+  }
 }

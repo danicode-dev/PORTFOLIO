@@ -1,0 +1,107 @@
+---
+import { education } from '../../data/es/education';
+import { experience } from '../../data/es/experience';
+import { technologyGroups } from '../../data/es/technologies';
+import { technologyIcons } from '../../data/technology-icons';
+import { withBase } from '../../utils/paths';
+---
+
+<section class="home-overview" aria-label="Resumen profesional">
+  <div class="home-overview__inner">
+    <section
+      class="home-overview__technologies"
+      id="tecnologias"
+      aria-labelledby="overview-technologies-title"
+    >
+      <p class="overview-label" id="overview-technologies-title">Tecnologías</p>
+      <div class="technology-groups">
+        {
+          technologyGroups.map((group) => (
+            <div class="technology-group">
+              <p class="technology-group__label">{group.label}</p>
+              <ul>
+                {group.technologies.map((technology) => {
+                  const icon =
+                    technologyIcons[technology as keyof typeof technologyIcons];
+
+                  return (
+                    <li>
+                      {icon && (
+                        <img
+                          src={withBase(icon)}
+                          alt=""
+                          width="16"
+                          height="16"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <span>{technology}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <article class="home-overview__fact">
+      <p class="overview-label">Formación</p>
+      <div class="home-overview__fact-list">
+        {
+          education.map((item) => (
+            <div class="overview-organization">
+              <span class="overview-organization__logo">
+                {item.logo && (
+                  <img
+                    src={withBase(item.logo)}
+                    alt={item.logoAlt}
+                    width="28"
+                    height="28"
+                  />
+                )}
+              </span>
+              <div>
+                <h2>{item.shortTitle ?? item.title}</h2>
+                <p>{item.institution}</p>
+                <small>{item.period}</small>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </article>
+
+    <article class="home-overview__fact">
+      <p class="overview-label">Experiencia</p>
+      <div class="home-overview__fact-list">
+        {
+          experience.map((item) => (
+            <div class="overview-organization">
+              <span class="overview-organization__logo">
+                {item.logo && (
+                  <img
+                    src={withBase(item.logo)}
+                    alt=""
+                    width="28"
+                    height="28"
+                    aria-hidden="true"
+                  />
+                )}
+              </span>
+              <div>
+                <h2>{item.role}</h2>
+                <p>
+                  {item.company}
+                  {item.context && ` · ${item.context}`}
+                </p>
+                <small>{item.period}</small>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </article>
+  </div>
+</section>

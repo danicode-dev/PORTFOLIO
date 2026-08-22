@@ -1,0 +1,83 @@
+---
+import { profile } from '../../data/es/profile';
+import type { Project } from '../../data/types';
+import { withBase } from '../../utils/paths';
+import ProjectPreview from '../projects/ProjectPreview.astro';
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+const [firstName, ...lastNames] = profile.fullName.split(' ');
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__grid">
+    <figure class="hero__portrait" data-reveal>
+      <picture>
+        <source
+          media="(max-width: 720px)"
+          srcset={withBase(profile.profileImageMobile)}
+        />
+        <img
+          src={withBase(profile.profileImage)}
+          alt={profile.profileImageAlt}
+          width="1800"
+          height="1200"
+          fetchpriority="high"
+        />
+      </picture>
+    </figure>
+
+    <div class="hero__intro">
+      <h1 id="hero-title" data-hero-enter>
+        <span>{firstName}</span>
+        <span>{lastNames.join(' ')}</span>
+      </h1>
+      <p class="hero__description" data-hero-enter>{profile.heroDescription}</p>
+      {
+        profile.availability && (
+          <p class="availability" data-hero-enter>
+            <span aria-hidden="true" />
+            {profile.availability}
+          </p>
+        )
+      }
+      <div class="hero__actions" data-hero-enter>
+        <button
+          type="button"
+          class="button-link button-link--primary"
+          data-dialog-open="about-dialog"
+        >
+          Conocer mi perfil
+          <svg viewBox="0 0 20 20" aria-hidden="true"
+            ><path d="M4 10h11m-4-4 4 4-4 4"></path></svg
+          >
+        </button>
+        <button
+          type="button"
+          class="button-link button-link--secondary"
+          data-dialog-open="contact-dialog"
+        >
+          Contactar
+          <svg viewBox="0 0 20 20" aria-hidden="true"
+            ><path d="M4 10h11m-4-4 4 4-4 4"></path></svg
+          >
+        </button>
+      </div>
+    </div>
+
+    <div class="hero__projects" aria-labelledby="featured-projects-title">
+      <div class="hero__projects-head">
+        <h2 id="featured-projects-title">Proyectos</h2>
+        <a href={withBase('proyectos/')} aria-label="Ver todos los proyectos"
+          >Ver todos <span aria-hidden="true">→</span></a
+        >
+      </div>
+      <div class="project-preview-list">
+        {projects.map((project) => <ProjectPreview {project} />)}
+      </div>
+    </div>
+  </div>
+</section>

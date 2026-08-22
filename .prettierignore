@@ -1,0 +1,11 @@
+.astro/
+dist/
+node_modules/
+input/
+portfolio-codex-pack-v1/
+public/cv/
+output/
+.playwright-cli/
+playwright-report/
+test-results/
+docs/screenshots/

@@ -1,0 +1,48 @@
+---
+import type { Project } from '../../data/types';
+import { withBase } from '../../utils/paths';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="project-preview" data-reveal>
+  <button
+    type="button"
+    class="project-preview__button"
+    aria-label={`Ver proyecto ${project.title}`}
+    data-dialog-open={`project-${project.id}`}
+  >
+    {
+      project.image && (
+        <span
+          class:list={[
+            'project-preview__mark',
+            `project-preview__mark--${project.id}`,
+          ]}
+        >
+          <img
+            src={withBase(project.image)}
+            alt=""
+            width="64"
+            height="64"
+            loading="lazy"
+          />
+        </span>
+      )
+    }
+    <span class="project-preview__body">
+      <small>{project.context}</small>
+      <strong>{project.title}</strong>
+      <span>{project.technologies.slice(0, 4).join(' · ')}</span>
+    </span>
+    <span class="project-preview__arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M5 12h14m-5-5 5 5-5 5"></path>
+      </svg>
+    </span>
+  </button>
+</article>

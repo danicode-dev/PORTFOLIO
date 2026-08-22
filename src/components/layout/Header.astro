@@ -1,0 +1,75 @@
+---
+import { withBase } from '../../utils/paths';
+
+interface Props {
+  currentPage: 'home' | 'projects' | '404';
+}
+
+const { currentPage } = Astro.props;
+const homeUrl = withBase();
+const projectsUrl = withBase('proyectos/');
+const cvUrl = withBase('cv/');
+---
+
+<header class="site-header" data-site-header>
+  <div class="site-header__inner">
+    <a class="brand" href={homeUrl} aria-label="DGO., ir al inicio">
+      <span>DGO</span><span aria-hidden="true">.</span>
+    </a>
+
+    <nav class="desktop-navigation" aria-label="Navegación principal">
+      <a
+        href={homeUrl}
+        aria-current={currentPage === 'home' ? 'page' : undefined}>Inicio</a
+      >
+      <button type="button" data-dialog-open="about-dialog">Sobre mí</button>
+      <a
+        href={projectsUrl}
+        aria-current={currentPage === 'projects' ? 'page' : undefined}
+      >
+        Proyectos
+      </a>
+    </nav>
+
+    <a class="header-cv-link" href={cvUrl}>Ver CV</a>
+
+    <button
+      class="menu-trigger"
+      type="button"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="mobile-navigation"
+      data-menu-open
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<dialog
+  class="mobile-menu"
+  id="mobile-navigation"
+  aria-labelledby="mobile-menu-title"
+  data-mobile-menu
+>
+  <div class="mobile-menu__panel">
+    <div class="mobile-menu__head">
+      <p id="mobile-menu-title">Navegación</p>
+      <button type="button" aria-label="Cerrar menú" data-menu-close autofocus>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m6 6 12 12M18 6 6 18"></path>
+        </svg>
+      </button>
+    </div>
+    <nav aria-label="Navegación móvil">
+      <a href={homeUrl} data-menu-link>Inicio <span>01</span></a>
+      <button type="button" data-dialog-open="about-dialog" data-menu-action>
+        Sobre mí <span>02</span>
+      </button>
+      <a href={projectsUrl} data-menu-link>Proyectos <span>03</span></a>
+    </nav>
+    <a class="mobile-menu__cv" href={cvUrl} data-menu-link>Consultar CV</a>
+  </div>
+</dialog>
