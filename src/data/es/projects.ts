@@ -27,7 +27,7 @@ export const projects: Project[] = [
     ],
     image: 'images/projects/al-lio.webp',
     imageAlt: 'Símbolo de identidad de AL-LÍO',
-    repositoryUrl: 'https://github.com/danicode-dev/al-lio',
+    repositoryUrl: 'https://github.com/danielgarciaortega-dev/al-lio',
     liveUrl: 'https://al-lio.danielcode.dev',
     eventUrl: null,
     award: null,

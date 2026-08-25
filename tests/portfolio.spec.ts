@@ -156,7 +156,7 @@ test('el modal de contacto permite copiar el correo y enlaza a LinkedIn y GitHub
   );
   await expect(
     contactDialog.getByRole('link', { name: 'GitHub' }),
-  ).toHaveAttribute('href', 'https://github.com/danicode-dev');
+  ).toHaveAttribute('href', 'https://github.com/danielgarciaortega-dev');
 
   await page.keyboard.press('Escape');
   await expect(contactDialog).toBeHidden();
@@ -193,7 +193,7 @@ test('el footer muestra enlaces con icono (GitHub, LinkedIn, CV, contacto) sin t
 
   await expect(footer.getByRole('link', { name: 'GitHub' })).toHaveAttribute(
     'href',
-    'https://github.com/danicode-dev',
+    'https://github.com/danielgarciaortega-dev',
   );
   await expect(footer.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute(
     'href',

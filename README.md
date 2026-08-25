@@ -2,7 +2,7 @@
 
 Portfolio profesional de Daniel García Ortega, estudiante de 2º curso de Desarrollo de Aplicaciones Web en el Instituto FOC (Granada), en búsqueda de empresa para las prácticas del ciclo.
 
-🔗 **[danicode-dev.github.io/PORTFOLIO](https://danicode-dev.github.io/PORTFOLIO/)**
+🔗 **[danielgarciaortega-dev.github.io/PORTFOLIO](https://danielgarciaortega-dev.github.io/PORTFOLIO/)**
 
 ## Sobre el proyecto
 
